@@ -76,3 +76,6 @@ DerivedDataCache/*
 
 # Unreal Starter Content
 Content/StarterContent/*
+
+# Packaged game
+out/*
