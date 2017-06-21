@@ -47,12 +47,10 @@ void ATankPlayerController::AimTowardsCrosshair ()
 
 bool ATankPlayerController::GetSightRayHitLocation (FVector& OutHitLocation) const
 {
-	FVector2D ScreenLocation = GetScreenLocation ();
-
-	FVector CameraWorldLocation;
 	FVector WorldDirection;
+
 	// De-project the screen position to a world firection
-	if (!DeprojectScreenPositionToWorld (ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, WorldDirection)) {
+	if (!GetLookDirection (GetScreenLocation (), WorldDirection)) {
 		UE_LOG (LogTemp, Error, TEXT ("Unable to determine World location based on screen"));
 	}
 	// Line trace along that look direction (up to max range)
@@ -75,4 +73,12 @@ FVector2D ATankPlayerController::GetScreenLocation () const
 		float (ViewPortSizeX) * CrossHairXLocation,
 		float (ViewPortSizeY) * CrossHairYLocation
 	);
+}
+
+bool ATankPlayerController::GetLookDirection (FVector2D ScreenLocation, FVector &OutLookDirection) const
+{
+	FVector CameraWorldLocation;
+
+	// De-project the screen position to a world firection
+	return DeprojectScreenPositionToWorld (ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, OutLookDirection);
 }
