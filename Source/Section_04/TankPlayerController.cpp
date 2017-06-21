@@ -1,6 +1,8 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
 #include "TankPlayerController.h"
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 
 
 void ATankPlayerController::Tick (float DeltaTime)
@@ -30,9 +32,34 @@ ATank* ATankPlayerController::GetControlledTank () const
 
 void ATankPlayerController::AimTowardsCrosshair ()
 {
-	if (!GetControlledTank ()) { return; }
+	ATank* ControlledTank = GetControlledTank ();
+	if (!ControlledTank) { return; }
+
+	FVector HitLocation; // Out parameter
 
 	// Get world location if linetrace through crosshair
 	// If it hits the landscape
-		//Tell controlled tank to aim at this point
+	if (GetSightRayHitLocation (HitLocation)) {
+		UE_LOG (LogTemp, Warning, TEXT ("Hit location: %s"), *(HitLocation.ToString ()));
+		// TODO: Tell controlled tank to aim at this point
+	}
+}
+
+bool ATankPlayerController::GetSightRayHitLocation (FVector& OutHitLocation) const
+{
+	OutHitLocation = FVector (1.0f);
+	//FRotator PlayerViewPointRotation;
+	//FVector LineTraceStart;
+
+	//// Need this to determine the line trace vector
+	//GetWorld ()->GetFirstPlayerController ()->GetPlayerViewPoint (
+	//	LineTraceStart,
+	//	PlayerViewPointRotation
+	//);
+	
+	// Compute ray staight out at crosshair location
+	// Check if it intersects anything
+		// if yes assign hitlocation and return true
+		// else return false
+	return false;
 }
