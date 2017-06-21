@@ -47,24 +47,32 @@ void ATankPlayerController::AimTowardsCrosshair ()
 
 bool ATankPlayerController::GetSightRayHitLocation (FVector& OutHitLocation) const
 {
-	// Find the crosshair position in pixel coordinates
-	int32 ViewPortSizeX, ViewPortSizeY;
+	FVector2D ScreenLocation = GetScreenLocation ();
 
-	GetViewportSize (ViewPortSizeX, ViewPortSizeY);
-
-	FVector2D ScreenLocation = FVector2D(
-		float (ViewPortSizeX) * CrossHairXLocation,
-		float (ViewPortSizeY) * CrossHairYLocation
-	);
-
+	FVector CameraWorldLocation;
+	FVector WorldDirection;
 	// De-project the screen position to a world firection
+	if (!DeprojectScreenPositionToWorld (ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, WorldDirection)) {
+		UE_LOG (LogTemp, Error, TEXT ("Unable to determine World location based on screen"));
+	}
 	// Line trace along that look direction (up to max range)
 
-	OutHitLocation = FVector (ScreenLocation, 0.0f);
-	
 	// Compute ray staight out at crosshair location
 	// Check if it intersects anything
 		// if yes assign hitlocation and return true
 		// else return false
 	return true;
+}
+
+FVector2D ATankPlayerController::GetScreenLocation () const
+{
+	// Find the crosshair position in pixel coordinates
+	int32 ViewPortSizeX, ViewPortSizeY;
+
+	GetViewportSize (ViewPortSizeX, ViewPortSizeY);
+
+	return FVector2D (
+		float (ViewPortSizeX) * CrossHairXLocation,
+		float (ViewPortSizeY) * CrossHairYLocation
+	);
 }
