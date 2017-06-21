@@ -24,6 +24,12 @@ public:
 	virtual void Tick (float DeltaTime) override;
 
 private:
+	UPROPERTY (EditAnywhere)
+	float CrossHairXLocation = 0.5f;
+
+	UPROPERTY (EditAnywhere)
+	float CrossHairYLocation = 0.33333f;
+
 	ATank* GetControlledTank () const;
 
 	// Start the tank moving the barrel so taht a shot wiyld hit where
@@ -31,5 +37,4 @@ private:
 	void AimTowardsCrosshair ();
 
 	bool GetSightRayHitLocation (FVector&) const;
-
 };
