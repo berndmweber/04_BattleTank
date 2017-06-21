@@ -30,6 +30,9 @@ private:
 	UPROPERTY (EditAnywhere)
 	float CrossHairYLocation = 0.33333f;
 
+	UPROPERTY (EditAnywhere)
+	float LineTraceRange = 100000.0f;
+
 	ATank* GetControlledTank () const;
 
 	// Start the tank moving the barrel so taht a shot wiyld hit where
@@ -41,4 +44,6 @@ private:
 	FVector2D GetScreenLocation () const;
 
 	bool GetLookDirection (FVector2D, FVector&) const;
+
+	bool GetLookVectorHitLocation (FVector&, FVector&) const;
 };
