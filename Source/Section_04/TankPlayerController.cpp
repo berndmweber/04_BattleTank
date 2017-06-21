@@ -51,11 +51,17 @@ void ATankPlayerController::AimTowardsCrosshair ()
 bool ATankPlayerController::GetSightRayHitLocation (FVector& OutHitLocation) const
 {
 	FVector LookDirection;
+	FVector CameraLocation;
+	FVector2D ScreenLocation = GetScreenLocation ();
 
 	// De-project the screen position to a world firection
-	if (GetLookDirection (GetScreenLocation (), OUT LookDirection)) {
+	if (DeprojectScreenPositionToWorld (
+		ScreenLocation.X,
+		ScreenLocation.Y,
+		OUT CameraLocation,
+		OUT LookDirection)) {
 		// Line trace along that look direction (up to max range)
-		return GetLookVectorHitLocation (LookDirection, OutHitLocation);
+		return GetLookVectorHitLocation (CameraLocation, LookDirection, OutHitLocation);
 	}
 
 	return false;
@@ -74,28 +80,15 @@ FVector2D ATankPlayerController::GetScreenLocation () const
 	);
 }
 
-bool ATankPlayerController::GetLookDirection (FVector2D ScreenLocation, FVector &OutLookDirection) const
-{
-	FVector CameraWorldLocation;
-
-	// De-project the screen position to a world firection
-	return DeprojectScreenPositionToWorld (
-		ScreenLocation.X,
-		ScreenLocation.Y,
-		OUT CameraWorldLocation,
-		OUT OutLookDirection);
-}
-
-bool ATankPlayerController::GetLookVectorHitLocation (FVector& LookDirection, FVector& OutHitLocation) const
+bool ATankPlayerController::GetLookVectorHitLocation (FVector& CameraLocation, FVector& LookDirection, FVector& OutHitLocation) const
 {
 	/// Setup Query parameters
 	//FCollisionQueryParams TraceParameters = FCollisionQueryParams (FName (TEXT ("")), false, GetOwner ());
 	FHitResult HitResult;
 
-	auto StartLocation = PlayerCameraManager->GetCameraLocation ();
-	auto EndLocation = StartLocation + LookDirection * LineTraceRange;
+	auto EndLocation = CameraLocation + LookDirection * LineTraceRange;
 
-	if (GetWorld ()->LineTraceSingleByChannel (OUT HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
+	if (GetWorld ()->LineTraceSingleByChannel (OUT HitResult, CameraLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
 		OutHitLocation = HitResult.Location;
 		return true;
 	}

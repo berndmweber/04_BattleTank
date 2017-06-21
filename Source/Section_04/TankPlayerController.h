@@ -43,7 +43,5 @@ private:
 
 	FVector2D GetScreenLocation () const;
 
-	bool GetLookDirection (FVector2D, FVector&) const;
-
-	bool GetLookVectorHitLocation (FVector&, FVector&) const;
+	bool GetLookVectorHitLocation (FVector&, FVector&, FVector&) const;
 };
