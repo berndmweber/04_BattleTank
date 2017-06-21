@@ -18,7 +18,9 @@ class SECTION_04_API ATankAIController : public AAIController
 protected:
 	virtual void BeginPlay () override;
 
-public:
+private:
 	ATank* GetControlledTank () const;
+
+	ATank* GetPlayerTank () const;
 
 };

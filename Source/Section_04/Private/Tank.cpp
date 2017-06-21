@@ -1,6 +1,6 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
-#include "Tank.h"
+#include "../Public/Tank.h"
 
 
 // Sets default values
