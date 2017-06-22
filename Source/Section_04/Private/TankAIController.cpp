@@ -1,8 +1,8 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
+#include "../Public/TankAIController.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
-#include "../Public/TankAIController.h"
 
 void ATankAIController::Tick (float DeltaTime)
 {

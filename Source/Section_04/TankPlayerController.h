@@ -39,9 +39,9 @@ private:
 	// the crosshair intersects the world
 	void AimTowardsCrosshair ();
 
-	bool GetSightRayHitLocation (FVector&) const;
+	bool GetSightRayHitLocation (FVector& OutHitLocation) const;
 
 	FVector2D GetScreenLocation () const;
 
-	bool GetLookVectorHitLocation (FVector&, FVector&, FVector&) const;
+	bool GetLookVectorHitLocation (FVector& CameraLocation, FVector& LookDirection, FVector& OutHitLocation) const;
 };
