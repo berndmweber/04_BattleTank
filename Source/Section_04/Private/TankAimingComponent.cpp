@@ -1,5 +1,6 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
+#include "../Public/TankBarrel.h"
 #include "../Public/TankAimingComponent.h"
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -43,7 +44,7 @@ void UTankAimingComponent::AimAt (FVector HitLocation, float LaunchSpeed)
 	// No target solution; do nothing
 }
 
-void UTankAimingComponent::SetBarrelReference (UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference (UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -57,7 +58,5 @@ void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)
 
 	UE_LOG (LogTemp, Warning, TEXT ("AimAsRotator: %s"), *(AimAsARotator.ToString ()));
 
-	// Move the barell the right amount this frame 
-
-	// Give a max elevation speed and the frame time
+	//Barrel->Elevate (5); // TODO remove magic number
 }
