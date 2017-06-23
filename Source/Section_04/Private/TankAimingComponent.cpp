@@ -1,7 +1,8 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
-#include "../Public/TankBarrel.h"
 #include "../Public/TankAimingComponent.h"
+#include "../Public/TankBarrel.h"
+#include "../Public/TankTurret.h"
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -40,6 +41,7 @@ void UTankAimingComponent::AimAt (FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = LaunchVelocity.GetSafeNormal ();
 		MoveBarrelTowards (AimDirection);
+		MoveTurretTowards (AimDirection);
 	}
 	else {
 		auto Time = GetWorld ()->GetTimeSeconds ();
@@ -53,6 +55,11 @@ void UTankAimingComponent::SetBarrelReference (UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference (UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)
 {
 	// Work out difference between current barrel location and aim direction
@@ -61,4 +68,14 @@ void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)
 	auto DeltaRotator = AimAsARotator - BarrelRotator;
 
 	Barrel->Elevate (DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::MoveTurretTowards (FVector & AimDirection)
+{
+	// Work out difference between current barrel location and aim direction
+	auto TurretRotator = Turret->GetForwardVector ().Rotation ();
+	auto AimAsARotator = AimDirection.Rotation ();
+	auto DeltaRotator = AimAsARotator - TurretRotator;
+
+	Turret->Rotate (DeltaRotator.Yaw);
 }
