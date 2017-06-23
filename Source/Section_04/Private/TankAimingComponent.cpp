@@ -60,8 +60,5 @@ void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)
 	auto AimAsARotator = AimDirection.Rotation ();
 	auto DeltaRotator = AimAsARotator - BarrelRotator;
 
-	auto Time = GetWorld ()->GetTimeSeconds ();
-	UE_LOG (LogTemp, Warning, TEXT ("%f - AimAsRotator: %s"), Time, *(AimAsARotator.ToString ()));
-
-	Barrel->Elevate (5.0f); // TODO remove magic number
+	Barrel->Elevate (DeltaRotator.Pitch);
 }
