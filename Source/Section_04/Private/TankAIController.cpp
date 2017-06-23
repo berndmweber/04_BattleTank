@@ -1,6 +1,7 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
 #include "../Public/TankAIController.h"
+#include "../Public/Tank.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
