@@ -35,14 +35,15 @@ void UTankAimingComponent::AimAt (FVector HitLocation, float LaunchSpeed)
 			false,
 			0.0f,
 			0.0f,
-			ESuggestProjVelocityTraceOption::TraceFullPath) // TODO: Turn this off id trace is not needed anymore
+			ESuggestProjVelocityTraceOption::DoNotTrace) // Using something else will likely cause the solution to be dropped
 		)
 	{
 		auto AimDirection = LaunchVelocity.GetSafeNormal ();
 		MoveBarrelTowards (AimDirection);
 	}
 	else {
-		UE_LOG (LogTemp, Warning, TEXT ("No aim solution found."));
+		auto Time = GetWorld ()->GetTimeSeconds ();
+		UE_LOG (LogTemp, Warning, TEXT ("%f - No aim solution found."), Time);
 	}
 	// No target solution; do nothing
 }
@@ -59,7 +60,8 @@ void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)
 	auto AimAsARotator = AimDirection.Rotation ();
 	auto DeltaRotator = AimAsARotator - BarrelRotator;
 
-	UE_LOG (LogTemp, Warning, TEXT ("AimAsRotator: %s"), *(AimAsARotator.ToString ()));
+	auto Time = GetWorld ()->GetTimeSeconds ();
+	UE_LOG (LogTemp, Warning, TEXT ("%f - AimAsRotator: %s"), Time, *(AimAsARotator.ToString ()));
 
 	Barrel->Elevate (5.0f); // TODO remove magic number
 }
