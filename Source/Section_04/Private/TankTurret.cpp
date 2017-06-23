@@ -12,4 +12,3 @@ void UTankTurret::Rotate (float RelativeSpeed)
 
 	SetRelativeRotation (FRotator (0.0f, Rotation, 0.0f));
 }
-
