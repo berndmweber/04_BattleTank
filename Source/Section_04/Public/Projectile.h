@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
+// Forward declarations
+class UTankProjectileMovementComponent;
+
 UCLASS()
 class SECTION_04_API AProjectile : public AActor
 {
@@ -23,6 +26,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-	
+	void LaunchProjectile (float Speed);
+
+private:
+	UTankProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 };
