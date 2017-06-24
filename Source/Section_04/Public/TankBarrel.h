@@ -9,7 +9,7 @@
 /**
  * Holds Barrel's properties
  */
-UCLASS( meta = (BlueprintSpawnableComponent), hidecategories = ("Collision") )
+UCLASS( meta = (BlueprintSpawnableComponent) )
 class SECTION_04_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()

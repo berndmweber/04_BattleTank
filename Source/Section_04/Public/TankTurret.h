@@ -9,7 +9,7 @@
 /**
  * Holds turret's properties
  */
-UCLASS( meta = (BlueprintSpawnableComponent), hidecategories = ("Collision") )
+UCLASS( meta = (BlueprintSpawnableComponent) )
 class SECTION_04_API UTankTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()

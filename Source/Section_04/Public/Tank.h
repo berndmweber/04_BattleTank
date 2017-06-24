@@ -6,9 +6,11 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+// Forward declarations
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS()
 class SECTION_04_API ATank : public APawn
@@ -45,4 +47,9 @@ protected:
 private:
 	UPROPERTY (EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000.0f;	// 1000 m/s
+
+	UPROPERTY (EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UTankBarrel* Barrel = nullptr;
 };
