@@ -24,3 +24,9 @@ void UTankMovementComponent::IntendTurnRight (float Throw)
 	RightTrack->SetThrottle (Throw);
 	// TODO prevent double speed due to double input
 }
+
+void UTankMovementComponent::RequestDirectMove (const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	// No need to call super since we're replacing the logic
+	UE_LOG (LogTemp, Warning, TEXT ("%s movevelocity: %s"), *(GetOwner ()->GetName ()), *(MoveVelocity.ToString ()));
+}

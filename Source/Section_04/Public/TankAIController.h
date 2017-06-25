@@ -23,4 +23,8 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick (float DeltaTime) override;
+
+private:
+	// How close can the AI tank get to the player
+	float AcceptanceRadius = 3000.0f; // in cm
 };
