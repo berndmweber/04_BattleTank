@@ -24,6 +24,10 @@ public:
 	// Called every frame
 	virtual void Tick (float DeltaTime) override;
 
+protected:
+	UFUNCTION (BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank () const;
+
 private:
 	UPROPERTY (EditAnywhere)
 	float CrossHairXLocation = 0.5f;
@@ -33,8 +37,6 @@ private:
 
 	UPROPERTY (EditAnywhere)
 	float LineTraceRange = 100000.0f;
-
-	ATank* GetControlledTank () const;
 
 	// Start the tank moving the barrel so taht a shot wiyld hit where
 	// the crosshair intersects the world
