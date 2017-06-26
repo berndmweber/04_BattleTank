@@ -31,9 +31,12 @@ public:
 public:
 	void AimAt (FVector HitLocation, float LaunchSpeed);
 
-	void SetBarrelReference (UTankBarrel* BarrelToSet);
+	UFUNCTION (BlueprintCallable, Category = "Setup")
+	void Initialize (UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void SetTurretReference (UTankTurret* TurretToSet);
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay () override;
 
 protected:
 	UPROPERTY (BlueprintReadOnly, Category = "State")
