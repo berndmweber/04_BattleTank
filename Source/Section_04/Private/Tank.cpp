@@ -23,13 +23,13 @@ void ATank::BeginPlay ()
 
 void ATank::AimAt (FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure (TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt (HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire (void)
 {
-	if (!Barrel) { return; }
+	if (!ensure (Barrel)) { return; }
 
 	if ((FPlatformTime::Seconds () - LastFireTime) > ReloadTimeInSeconds) {
 		// Spawn a projectile at the socker location on the barrel
@@ -38,7 +38,7 @@ void ATank::Fire (void)
 			Barrel->GetSocketLocation (FName ("Projectile")),
 			Barrel->GetSocketRotation (FName ("Projectile"))
 			);
-		if (Projectile) {
+		if (ensure(Projectile)) {
 			Projectile->LaunchProjectile (LaunchSpeed);
 			LastFireTime = FPlatformTime::Seconds ();
 		}
