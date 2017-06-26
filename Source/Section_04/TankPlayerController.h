@@ -18,15 +18,14 @@ class SECTION_04_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay () override;
-
 public:
 	// Called every frame
 	virtual void Tick (float DeltaTime) override;
 
 protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay () override;
+
 	UFUNCTION (BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank () const;
 

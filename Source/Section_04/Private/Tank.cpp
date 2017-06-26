@@ -5,7 +5,6 @@
 #include "../Public/TankAimingComponent.h"
 #include "../Public/Projectile.h"
 #include "Engine/World.h"
-#include "Engine/StaticMeshSocket.h"
 
 
 // Sets default values
@@ -43,10 +42,4 @@ void ATank::Fire (void)
 			LastFireTime = FPlatformTime::Seconds ();
 		}
 	}
-}
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }

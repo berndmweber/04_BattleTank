@@ -28,7 +28,6 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-public:
 	void AimAt (FVector HitLocation, float LaunchSpeed);
 
 	UFUNCTION (BlueprintCallable, Category = "Setup")
@@ -38,7 +37,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay () override;
 
-protected:
 	UPROPERTY (BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Locked;
 
