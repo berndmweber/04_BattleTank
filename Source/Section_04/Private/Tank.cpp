@@ -1,11 +1,10 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
 #include "../Public/Tank.h"
-#include "../Public/TankBarrel.h"
-#include "../Public/TankAimingComponent.h"
 #include "../Public/Projectile.h"
+#include "../Public/TankAimingComponent.h"
+#include "../Public/TankBarrel.h"
 #include "Engine/World.h"
-
 
 // Sets default values
 ATank::ATank()
@@ -18,6 +17,8 @@ ATank::ATank()
 void ATank::BeginPlay ()
 {
 	Super::BeginPlay ();
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent> (); // TODO Need to get rid of this -> for AimAt
 }
 
 void ATank::AimAt (FVector HitLocation)
