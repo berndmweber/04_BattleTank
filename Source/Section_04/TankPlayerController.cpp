@@ -1,7 +1,6 @@
 // Copyright 2017 Red Rabbit Games, Inc.
 
 #include "TankPlayerController.h"
-#include "Public/Tank.h"
 #include "Public/TankAimingComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
@@ -21,9 +20,9 @@ void ATankPlayerController::BeginPlay ()
 {
 	Super::BeginPlay ();
 
-	auto Tank = GetControlledTank ();
+	auto Tank = GetPawn ();
 	if (ensure (Tank)) {
-		auto AimingComponent = Tank->FindComponentByClass<UTankAimingComponent> ();
+		AimingComponent = Tank->FindComponentByClass<UTankAimingComponent> ();
 		if (ensure (AimingComponent)) {
 			FoundAimingComponent (AimingComponent);
 		}
@@ -33,22 +32,16 @@ void ATankPlayerController::BeginPlay ()
 	}
 }
 
-ATank* ATankPlayerController::GetControlledTank () const
-{
-	return Cast<ATank> (GetPawn ());
-}
-
 void ATankPlayerController::AimTowardsCrosshair ()
 {
-	ATank* ControlledTank = GetControlledTank ();
-	if (!ensure (ControlledTank)) { return; }
+	if (!ensure (AimingComponent)) { return; }
 
 	FVector HitLocation; // Out parameter
 
 	// Get world location if linetrace through crosshair
 	// If it hits the landscape
 	if (GetSightRayHitLocation (OUT HitLocation)) {
-		GetControlledTank ()->AimAt (HitLocation);
+		AimingComponent->AimAt (HitLocation);
 	}
 }
 

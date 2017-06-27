@@ -7,7 +7,6 @@
 #include "TankPlayerController.generated.h"
 
 // Forward Declarations
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -26,9 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay () override;
 
-	UFUNCTION (BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank () const;
-
+	/// Need this do not remove even though not implemented. Get's used by BP as event!
 	UFUNCTION (BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent (UTankAimingComponent* AimCompRef);
 
@@ -41,6 +38,8 @@ private:
 
 	UPROPERTY (EditAnywhere)
 	float LineTraceRange = 100000.0f;
+
+	UTankAimingComponent* AimingComponent = nullptr;
 
 	// Start the tank moving the barrel so taht a shot wiyld hit where
 	// the crosshair intersects the world
