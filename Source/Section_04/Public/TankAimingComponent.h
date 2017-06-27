@@ -9,6 +9,7 @@
 // Forward declaration
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 // Enum for aiming state
 UENUM()
@@ -33,6 +34,9 @@ public:
 	UFUNCTION (BlueprintCallable, Category = "Setup")
 	void Initialize (UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	UFUNCTION (BlueprintCallable, Category = "Setup")
+	void Fire ();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay () override;
@@ -43,6 +47,14 @@ protected:
 private:
 	UPROPERTY (EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 40000.0f;	// 1000 m/s
+
+	UPROPERTY (EditDefaultsOnly, Category = "Firing")
+	float ReloadTimeInSeconds = 3.0f;
+
+	UPROPERTY (EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	double LastFireTime = 0.0;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
