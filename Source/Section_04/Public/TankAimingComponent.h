@@ -42,7 +42,7 @@ protected:
 	virtual void BeginPlay () override;
 
 	UPROPERTY (BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:
 	UPROPERTY (EditDefaultsOnly, Category = "Firing")
@@ -58,6 +58,8 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	virtual void TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	void MoveBarrelTowards (FVector& AimDirection);
 	void MoveTurretTowards (FVector& AimDirection);

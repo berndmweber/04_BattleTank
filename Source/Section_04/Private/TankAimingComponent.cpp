@@ -17,13 +17,25 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
 void UTankAimingComponent::BeginPlay ()
 {
 	Super::BeginPlay ();
+
+	// So that the first fire is after an initial reload
+	LastFireTime = FPlatformTime::Seconds ();
+}
+
+void UTankAimingComponent::TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	UE_LOG (LogTemp, Warning, TEXT ("UTankAimingComponent::TickComponent"));
+	if ((FPlatformTime::Seconds () - LastFireTime) > ReloadTimeInSeconds) {
+		FiringState = EFiringState::Reloading;
+	}
+	// TODO handle aiming and locked state
 }
 
 void UTankAimingComponent::AimAt (FVector HitLocation)
@@ -85,7 +97,7 @@ void UTankAimingComponent::Fire (void)
 {
 	if (!ensure (Barrel && ProjectileBlueprint)) { return; }
 
-	if ((FPlatformTime::Seconds () - LastFireTime) > ReloadTimeInSeconds) {
+	if (FiringState != EFiringState::Reloading) {
 		// Spawn a projectile at the socker location on the barrel
 		auto Projectile = GetWorld ()->SpawnActor<AProjectile> (
 			ProjectileBlueprint,
