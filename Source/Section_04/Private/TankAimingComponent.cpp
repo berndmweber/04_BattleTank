@@ -83,7 +83,7 @@ void UTankAimingComponent::MoveTurretTowards (FVector& AimDirection)
 
 void UTankAimingComponent::Fire (void)
 {
-	if (!ensure (Barrel)) { return; }
+	if (!ensure (Barrel && ProjectileBlueprint)) { return; }
 
 	if ((FPlatformTime::Seconds () - LastFireTime) > ReloadTimeInSeconds) {
 		// Spawn a projectile at the socker location on the barrel
