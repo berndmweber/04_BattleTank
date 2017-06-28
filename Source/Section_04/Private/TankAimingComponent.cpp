@@ -13,7 +13,7 @@
 #define OUT
 
 // Sets default values for this component's properties
-UTankAimingComponent::UTankAimingComponent()
+UTankAimingComponent::UTankAimingComponent ()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -27,15 +27,6 @@ void UTankAimingComponent::BeginPlay ()
 
 	// So that the first fire is after an initial reload
 	LastFireTime = FPlatformTime::Seconds ();
-}
-
-void UTankAimingComponent::TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
-{
-	UE_LOG (LogTemp, Warning, TEXT ("UTankAimingComponent::TickComponent"));
-	if ((FPlatformTime::Seconds () - LastFireTime) > ReloadTimeInSeconds) {
-		FiringState = EFiringState::Reloading;
-	}
-	// TODO handle aiming and locked state
 }
 
 void UTankAimingComponent::AimAt (FVector HitLocation)
@@ -58,17 +49,37 @@ void UTankAimingComponent::AimAt (FVector HitLocation)
 			ESuggestProjVelocityTraceOption::DoNotTrace) // Using something else will likely cause the solution to be dropped
 		)
 	{
-		auto AimDirection = LaunchVelocity.GetSafeNormal ();
+		AimDirection = LaunchVelocity.GetSafeNormal ();
 		MoveBarrelTowards (AimDirection);
 		MoveTurretTowards (AimDirection);
 	}
-	// No target solution; do nothing
 }
 
 void UTankAimingComponent::Initialize (UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds () - LastFireTime) < ReloadTimeInSeconds) {
+		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving ()) {
+		FiringState = EFiringState::Aiming;
+	}
+	else {
+		FiringState = EFiringState::Locked;
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving ()
+{
+	if (!ensure (Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector ();
+	// TODO The Tolerance here is larger than anticipated. For some reason the Barrel and the aimdirection diverge quite a bit...
+	return !BarrelForward.Equals (AimDirection, 0.15f);
 }
 
 void UTankAimingComponent::MoveBarrelTowards (FVector& AimDirection)

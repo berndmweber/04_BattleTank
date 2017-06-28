@@ -59,8 +59,12 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	FVector AimDirection;
+
 	virtual void TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	void MoveBarrelTowards (FVector& AimDirection);
 	void MoveTurretTowards (FVector& AimDirection);
+
+	bool IsBarrelMoving ();
 };

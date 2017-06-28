@@ -80,7 +80,6 @@ FVector2D ATankPlayerController::GetScreenLocation () const
 bool ATankPlayerController::GetLookVectorHitLocation (FVector& CameraLocation, FVector& LookDirection, FVector& OutHitLocation) const
 {
 	/// Setup Query parameters
-	//FCollisionQueryParams TraceParameters = FCollisionQueryParams (FName (TEXT ("")), false, GetOwner ());
 	FHitResult HitResult;
 
 	auto EndLocation = CameraLocation + LookDirection * LineTraceRange;
