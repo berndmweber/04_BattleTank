@@ -15,6 +15,8 @@ class SECTION_04_API UTankTrack : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
+	UTankTrack ();
+
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle (float Throttle);
 
@@ -25,4 +27,6 @@ private:
 
 	float MaxThrottle = 1.0f;
 	float MinThrottle = -1.0f;
+
+	virtual void TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 };
