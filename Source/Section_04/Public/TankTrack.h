@@ -20,6 +20,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle (float Throttle);
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay () override;
+
 private:
 	// This is max force per track in Newtons;
 	UPROPERTY(EditDefaultsOnly)
@@ -29,4 +33,7 @@ private:
 	float MinThrottle = -1.0f;
 
 	virtual void TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+	UFUNCTION ()
+	void OnHit (UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

@@ -8,6 +8,14 @@ UTankTrack::UTankTrack () {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+// Called when the game starts or when spawned
+void UTankTrack::BeginPlay ()
+{
+	Super::BeginPlay ();
+
+	OnComponentHit.AddDynamic (this, &UTankTrack::OnHit);
+}
+
 void UTankTrack::TickComponent (float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	Super::TickComponent (DeltaTime, TickType, ThisTickFunction);
@@ -22,6 +30,11 @@ void UTankTrack::TickComponent (float DeltaTime, ELevelTick TickType, FActorComp
 		auto CorrectionForce = (TankRoot->GetMass () * CorrectionAcceleration) / 2; // Two Tracks
 		TankRoot->AddForce (CorrectionForce);
 	}
+}
+
+void UTankTrack::OnHit (UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
+{
+	UE_LOG (LogTemp, Warning, TEXT ("OnHit!"));
 }
 
 // Set throttle between -1 and 1
