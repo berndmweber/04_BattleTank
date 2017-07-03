@@ -18,7 +18,11 @@ public:
 	// Called every frame
 	virtual void Tick (float DeltaTime) override;
 
-private:
+protected:
 	// How close can the AI tank get to the player
+	UPROPERTY (EditDefaultsOnly, Category = "Firing")
 	float AcceptanceRadius = 3000.0f; // in cm
+
+	UPROPERTY (EditDefaultsOnly, Category = "Debug")
+	bool EnableFiring = true;
 };
