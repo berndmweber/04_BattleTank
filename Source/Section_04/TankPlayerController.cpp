@@ -40,7 +40,8 @@ void ATankPlayerController::AimTowardsCrosshair ()
 
 	// Get world location if linetrace through crosshair
 	// If it hits the landscape
-	if (GetSightRayHitLocation (OUT HitLocation)) {
+	bool bGotHitLocation = GetSightRayHitLocation (OUT HitLocation);
+	if (bGotHitLocation) {
 		AimingComponent->AimAt (HitLocation);
 	}
 }
