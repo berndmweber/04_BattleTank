@@ -31,8 +31,10 @@ private:
 
 	float MaxThrottle = 1.0f;
 	float MinThrottle = -1.0f;
+	float CurrentThrottle = 0;
 
-	virtual void TickComponent (float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	void ApplySidewaysForce ();
+	void DriveTrack ();
 
 	UFUNCTION ()
 	void OnHit (UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
