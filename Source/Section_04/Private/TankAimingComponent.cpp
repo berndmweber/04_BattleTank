@@ -65,7 +65,9 @@ void UTankAimingComponent::TickComponent (float DeltaTime, enum ELevelTick TickT
 {
 	Super::TickComponent (DeltaTime, TickType, ThisTickFunction);
 
-	if ((FPlatformTime::Seconds () - LastFireTime) < ReloadTimeInSeconds) {
+	if (GetAmmo () <= 0) {
+		FiringState = EFiringState::OutOfAmmo;
+	} else if ((FPlatformTime::Seconds () - LastFireTime) < ReloadTimeInSeconds) {
 		FiringState = EFiringState::Reloading;
 	}
 	else if (IsBarrelMoving ()) {
@@ -79,6 +81,11 @@ void UTankAimingComponent::TickComponent (float DeltaTime, enum ELevelTick TickT
 EFiringState UTankAimingComponent::GetFiringState () const
 {
 	return FiringState;
+}
+
+int32 UTankAimingComponent::GetAmmo () const
+{
+	return Ammo;
 }
 
 bool UTankAimingComponent::IsBarrelMoving ()
@@ -121,7 +128,7 @@ void UTankAimingComponent::Fire (void)
 {
 	if (!ensure (Barrel && ProjectileBlueprint)) { return; }
 
-	if (FiringState != EFiringState::Reloading) {
+	if ((FiringState == EFiringState::Locked) || (FiringState == EFiringState::Aiming)) {
 		// Spawn a projectile at the socker location on the barrel
 		auto Projectile = GetWorld ()->SpawnActor<AProjectile> (
 			ProjectileBlueprint,
@@ -131,6 +138,7 @@ void UTankAimingComponent::Fire (void)
 		if (ensure (Projectile)) {
 			Projectile->LaunchProjectile (LaunchSpeed);
 			LastFireTime = FPlatformTime::Seconds ();
+			Ammo--;
 		}
 	}
 }

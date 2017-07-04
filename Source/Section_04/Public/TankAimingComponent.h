@@ -17,7 +17,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -39,12 +40,18 @@ public:
 
 	EFiringState GetFiringState () const;
 
+	UFUNCTION (BlueprintCallable, Category = "Firing")
+	int32 GetAmmo () const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay () override;
 
 	UPROPERTY (BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
+
+	UPROPERTY (EditDefaultsOnly, Category = "Firing")
+	int32 Ammo = 3;
 
 private:
 	UPROPERTY (EditDefaultsOnly, Category = "Firing")
