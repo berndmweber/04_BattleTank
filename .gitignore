@@ -74,8 +74,5 @@ Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-# Unreal Starter Content
-Content/StarterContent/*
-
 # Packaged game
 out/*
