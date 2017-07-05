@@ -4,6 +4,7 @@
 #include "../Public/TankProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 
 
 // Sets default values
@@ -26,6 +27,9 @@ AProjectile::AProjectile()
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent> (FName ("Projectile Impact Blast"));
 	ImpactBlast->AttachToComponent (RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent> (FName ("Projectile Explosion Force"));
+	ExplosionForce->AttachToComponent (RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +44,7 @@ void AProjectile::OnHit (UPrimitiveComponent * HitComponent, AActor * OtherActor
 {
 	LaunchBlast->Deactivate ();
 	ImpactBlast->Activate ();
+	ExplosionForce->FireImpulse ();
 }
 
 void AProjectile::LaunchProjectile (float Speed)
