@@ -25,4 +25,10 @@ protected:
 
 	UPROPERTY (EditDefaultsOnly, Category = "Debug")
 	bool EnableFiring = true;
+
+private:
+	virtual void SetPawn (APawn* InPawn) override;
+
+	UFUNCTION ()
+	void OnTankDeath ();
 };

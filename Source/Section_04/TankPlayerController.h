@@ -50,4 +50,9 @@ private:
 	FVector2D GetScreenLocation () const;
 
 	bool GetLookVectorHitLocation (FVector& CameraLocation, FVector& LookDirection, FVector& OutHitLocation) const;
+
+	virtual void SetPawn (APawn* InPawn) override;
+
+	UFUNCTION ()
+	void OnTankDeath ();
 };

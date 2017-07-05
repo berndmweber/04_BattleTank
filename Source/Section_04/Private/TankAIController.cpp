@@ -2,6 +2,7 @@
 
 #include "../Public/TankAIController.h"
 #include "../Public/TankAimingComponent.h"
+#include "../Public/Tank.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
@@ -29,4 +30,22 @@ void ATankAIController::Tick (float DeltaTime)
 			}
 		}
 	}
+}
+
+void ATankAIController::SetPawn (APawn* InPawn)
+{
+	Super::SetPawn (InPawn);
+
+	if (ensure (InPawn)) {
+		auto PossessedTank = Cast<ATank> (InPawn);
+
+		// Subscribe our local method to the tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic (this, &ATankAIController::OnTankDeath);
+	}
+}
+
+void ATankAIController::OnTankDeath ()
+{
+	if (!ensure (GetPawn ())) { return; } // TODO remove ensure
+	GetPawn()->DetachFromControllerPendingDestroy ();
 }
